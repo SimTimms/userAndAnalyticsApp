@@ -1,0 +1,51 @@
+//Third Party Imports
+import { useNavigate } from 'react-router-dom';
+import { useMutation } from '@apollo/client';
+
+//Local Imports
+import { UPDATE_USER_MUTATION } from 'graphql/mutations/user';
+import { StyledButton } from 'views/components/';
+import { IUserWrite } from 'interface';
+
+export const UpdateButton = (props: { formData: IUserWrite }) => {
+  const navigate = useNavigate();
+
+  const { email, scope, name, organisation, _id, projects } = props.formData;
+
+  const [saveEvent, { data, loading, error }] = useMutation(
+    UPDATE_USER_MUTATION,
+    {
+      variables: {
+        userId: _id,
+        name: name,
+        email: email,
+        scope: scope,
+        organisation: organisation,
+        projects: projects,
+      },
+      onCompleted: (data) => {
+        const success = data.userUpdate;
+        success && navigate('/dashboard/users');
+      },
+    }
+  );
+
+  return (
+    <StyledButton
+      title={
+        loading
+          ? '...'
+          : error
+          ? 'Error'
+          : !data
+          ? 'Update'
+          : data
+          ? 'Success'
+          : 'Update'
+      }
+      onClick={() => {
+        saveEvent();
+      }}
+    />
+  );
+};

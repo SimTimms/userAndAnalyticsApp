@@ -1,0 +1,11 @@
+# Layouts
+
+These are high level components that organise the screen into sections such as NavBar, SideBar, Content Area.
+
+# Pages
+
+These combine multiple components into content
+
+#Components
+
+Individual items like buttons, navbars, or headers
